@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>L'Atelier Abstrait — Julien Vernet</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@200;300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg-main: #fafafa;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background-color: var(--bg-main);
+        color: #1a1a1a;
+        scroll-behavior: smooth;
+      }
+
+      .font-serif {
+        font-family: "Playfair Display", serif;
+      }
+      .font-luxury {
+        font-family: "Cinzel", serif;
+      }
+
+      /* Effet Ken Burns (Zoom lent et fluide) */
+      .hero-bg {
+        animation: kenburns 40s infinite alternate ease-in-out;
+        transform-origin: center;
+        will-change: transform;
+      }
+
+      @keyframes kenburns {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1.18);
+        }
+      }
+
+      /* Galerie Masonry Organique */
+      .masonry-grid {
+        columns: 1;
+        column-gap: 2rem;
+      }
+      @media (min-width: 640px) {
+        .masonry-grid {
+          columns: 2;
+        }
+      }
+      @media (min-width: 1024px) {
+        .masonry-grid {
+          columns: 3;
+        }
+      }
+
+      .masonry-item {
+        break-inside: avoid;
+        margin-bottom: 2rem;
+      }
+
+      /* Animations d'apparition au scroll */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Personnalisation Scrollbar */
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #222;
+        border-radius: 4px;
+      }
+
+      /* Animation de fondu pour le changement d'image dans la lightbox */
+      .fade-in {
+        animation: fadeIn 0.6s cubic-bezier(0.2, 0, 0.2, 1);
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Retrait des bordures de focus sur les boutons */
+      button:focus {
+        outline: none;
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@^19.2.3",
+          "react/": "https://esm.sh/react@^19.2.3/"
+        }
+      }
+    </script>
+  </head>
+  <body class="selection:bg-black selection:text-white overflow-x-hidden">
+    <!-- Section Hero -->
+    <header
+      class="relative h-screen w-full overflow-hidden flex items-center justify-center"
+    >
+      <div class="absolute inset-0 z-0">
+        <img
+          src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=2400"
+          alt="Peinture Abstraite"
+          class="w-full h-full object-cover hero-bg brightness-[0.7]"
+        />
+        <div class="absolute inset-0 bg-black/10"></div>
+      </div>
+
+      <div class="relative z-10 text-center text-white px-6">
+        <p
+          class="font-luxury text-[10px] tracking-[0.9em] uppercase mb-10 opacity-80"
+        >
+          Art contemporain
+        </p>
+        <h1
+          class="font-serif text-5xl md:text-[8rem] lg:text-[10rem] leading-[0.85] tracking-tighter mb-10"
+        >
+          PYT <br />
+          <span class="italic ml-8 md:ml-32">Art</span>
+        </h1>
+        <div class="flex justify-center mt-16">
+          <div
+            class="w-[1px] h-24 bg-gradient-to-b from-white to-transparent"
+          ></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Galerie -->
+    <section class="py-32 md:py-48 px-6 md:px-12 lg:px-24">
+      <div class="max-w-[1800px] mx-auto">
+        <header class="mb-32 text-center reveal">
+          <h2
+            class="font-luxury text-[11px] tracking-[0.6em] uppercase text-gray-400 mb-6"
+          >
+            Collections 2024
+          </h2>
+          <h3
+            class="font-serif text-4xl md:text-6xl text-gray-900 tracking-tight"
+          >
+            Vibrations Chromatiques
+          </h3>
+        </header>
+
+        <div id="gallery" class="masonry-grid">
+          <!-- Généré par JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div
+      id="lightbox"
+      class="fixed inset-0 z-[200] bg-black hidden flex-col lg:flex-row items-center justify-center p-6 md:p-12 lg:p-24 overflow-y-auto lg:overflow-hidden"
+    >
+      <!-- Fermer -->
+      <button
+        onclick="closeLightbox()"
+        class="fixed top-8 right-8 text-gray-500 hover:text-white transition-all z-[210] p-4 group"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-8 w-8"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+
+      <div
+        class="w-full h-full flex flex-col lg:flex-row gap-12 lg:gap-32 items-center justify-center max-w-[1800px] mx-auto"
+      >
+        <!-- Gauche: Image + Thumbs -->
+        <div class="w-full lg:w-3/5 flex flex-col items-center">
+          <div class="relative w-full flex items-center justify-center">
+            <img
+              id="lb-image"
+              src=""
+              alt=""
+              class="max-w-full max-h-[70vh] object-contain shadow-[0_50px_100px_rgba(0,0,0,0.8)]"
+            />
+          </div>
+          <!-- Miniatures (Flex wrap, no scroll) -->
+          <div
+            id="lb-thumbnails"
+            class="mt-12 flex flex-wrap gap-4 justify-center"
+          >
+            <!-- Généré par JS -->
+          </div>
+        </div>
+
+        <!-- Droite: Détails -->
+        <div class="w-full lg:w-2/5 text-left text-white">
+          <div class="max-w-lg">
+            <h2
+              id="lb-title"
+              class="font-serif text-4xl md:text-6xl mb-8 tracking-tight"
+            ></h2>
+
+            <div class="flex items-center gap-6 mb-12">
+              <div class="h-[1px] w-12 bg-white/20"></div>
+              <p
+                id="lb-info"
+                class="text-[10px] uppercase tracking-[0.5em] text-gray-400 font-bold"
+              ></p>
+            </div>
+
+            <div class="space-y-12">
+              <p
+                id="lb-desc"
+                class="text-xl md:text-2xl text-gray-300 leading-relaxed font-serif italic font-light opacity-90"
+              ></p>
+
+              <div class="pt-12 border-t border-white/5 space-y-12">
+                <!-- Bloc Prestige Gris Clair #a1a1aa -->
+                <p
+                  class="text-[11px] text-[#a1a1aa] uppercase tracking-[0.4em] leading-[2.2] font-light"
+                >
+                  Pièce unique — Atelier Vernet<br />
+                  Pigments naturels & lin pur.<br />
+                  Prête pour exposition.
+                </p>
+
+                <button
+                  onclick="closeLightbox()"
+                  class="px-12 py-4 border border-white/10 text-white text-[10px] uppercase tracking-[0.5em] hover:bg-white hover:text-black transition-all duration-500"
+                >
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white pt-48 pb-20 px-6 border-t border-gray-100">
+      <div
+        class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-24"
+      >
+        <div class="reveal">
+          <h4 class="font-luxury text-sm tracking-[0.4em] mb-8">
+            JULIEN VERNET
+          </h4>
+          <p
+            class="text-[10px] text-gray-400 uppercase tracking-[0.3em] max-w-xs leading-loose"
+          >
+            Peintre plasticien. Explorer l'invisible à travers la matière.
+          </p>
+        </div>
+
+        <div class="flex gap-16 reveal">
+          <div class="flex flex-col gap-6">
+            <p class="text-[10px] font-bold tracking-widest uppercase mb-2">
+              Portfolio
+            </p>
+            <a
+              href="#"
+              class="text-[10px] uppercase tracking-[0.3em] text-gray-400 hover:text-black transition-colors"
+              >Instagram</a
+            >
+            <a
+              href="#"
+              class="text-[10px] uppercase tracking-[0.3em] text-gray-400 hover:text-black transition-colors"
+              >Journal</a
+            >
+          </div>
+          <div class="flex flex-col gap-6">
+            <p class="text-[10px] font-bold tracking-widest uppercase mb-2">
+              Légal
+            </p>
+            <button
+              onclick="toggleLegal()"
+              class="text-[10px] uppercase tracking-[0.3em] text-gray-400 hover:text-black transition-colors text-left"
+            >
+              Mentions Légales
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mentions Légales -->
+      <div
+        id="legal"
+        class="hidden max-w-7xl mx-auto mt-24 p-12 bg-gray-50 text-[10px] text-gray-400 uppercase tracking-widest leading-loose border border-gray-100 reveal active"
+      >
+        <p class="mb-6">
+          Propriété intellectuelle : Toutes les œuvres et photographies
+          présentes sur ce site sont la propriété exclusive de Julien Vernet.
+          Toute reproduction est strictement interdite sans consentement écrit.
+        </p>
+        <p>Hébergement : Portfolio Privé — Atelier Vernet.</p>
+      </div>
+
+      <div class="mt-40 text-center">
+        <p
+          class="text-[9px] uppercase tracking-[0.8em] text-gray-300 font-light"
+        >
+          © 2024 — L'Atelier Abstrait — France
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      /**
+       * DONNÉES DES ŒUVRES
+       */
+      const mesToiles = [
+        {
+          id: "t1",
+          titre: "Netastral",
+          taille: "136 x 59 cm",
+          description:
+            "Cette toile qui m'a fait douter durant quasiment tout le porcessus de sa création. Elle m'a frustré, m'a attrapé les entrailles et les a serré pendant de longues heuresn elle m'a donne envie de me dire qu'elle serait la dernière. Puis elle m'a laissé faire et j'ai pu libérer la violence de mon amour non sans peser chacun de mes gestes.",
+          images: [
+            "images/netastral/Netastral_01.jpg",
+            "images/netastral/Netastral_02.jpg",
+          ],
+          dateAjout: "2020-01-14",
+        },
+        {
+          id: "t2",
+          titre: "Murmure d'Ombre",
+          taille: "90 x 90 cm",
+          description:
+            "Le silence capturé dans le mouvement. Contrastes de textures entre le mat de l'acrylique et le brillant de l'huile.",
+          images: [
+            "https://images.unsplash.com/photo-1554188248-986adbb73be4?auto=format&fit=crop&q=80&w=1200",
+            "https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&q=80&w=1200",
+          ],
+          dateAjout: "2024-04-15",
+        },
+        {
+          id: "t3",
+          titre: "Éclat d'Ambre",
+          taille: "100 x 130 cm",
+          description:
+            "Une explosion de chaleur minérale, inspirée par les terres d'ocre et le soleil de fin de journée.",
+          images: [
+            "https://images.unsplash.com/photo-1578301978018-3005759f48f7?auto=format&fit=crop&q=80&w=1200",
+          ],
+          dateAjout: "2024-07-22",
+        },
+        {
+          id: "t4",
+          titre: "Chaos Ordonné",
+          taille: "80 x 120 cm",
+          description:
+            "La recherche de l'équilibre dans l'imprévisibilité. Chaque trait est une intention suspendue.",
+          images: [
+            "https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?auto=format&fit=crop&q=80&w=1200",
+            "https://images.unsplash.com/photo-1543857778-c4a1a3e0b2eb?auto=format&fit=crop&q=80&w=1200",
+          ],
+          dateAjout: "2023-11-10",
+        },
+        {
+          id: "t5",
+          titre: "Nébuleuse Interne",
+          taille: "150 x 200 cm",
+          description:
+            "Format monumental invitant à une immersion totale dans les profondeurs de l'inconscient.",
+          images: [
+            "https://images.unsplash.com/photo-1460661419201-fd4ce186860d?auto=format&fit=crop&q=80&w=1200",
+          ],
+          dateAjout: "2024-08-05",
+        },
+      ];
+
+      // --- Logique de la Galerie ---
+      function renderGallery() {
+        const container = document.getElementById("gallery");
+        // Tri par date décroissante
+        const sorted = [...mesToiles].sort(
+          (a, b) => new Date(b.dateAjout) - new Date(a.dateAjout)
+        );
+
+        container.innerHTML = sorted
+          .map(
+            (toile) => `
+                <div class="masonry-item reveal group cursor-pointer" onclick="openLightbox('${toile.id}')">
+                    <div class="relative overflow-hidden bg-gray-100 shadow-sm transition-all duration-700 hover:shadow-2xl">
+                        <img src="${toile.images[0]}" alt="${toile.titre}" class="w-full h-auto object-cover transform scale-100 transition-transform duration-1000 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500"></div>
+                        <div class="absolute bottom-0 left-0 w-full p-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                             <h4 class="text-white font-serif text-2xl italic tracking-tight">${toile.titre}</h4>
+                        </div>
+                    </div>
+                    <div class="mt-5 flex justify-between items-baseline px-1 opacity-40 group-hover:opacity-100 transition-opacity">
+                        <span class="text-[10px] uppercase tracking-[0.3em] font-medium">${toile.titre}</span>
+                        <span class="text-[9px] uppercase tracking-widest font-light">${toile.taille}</span>
+                    </div>
+                </div>
+            `
+          )
+          .join("");
+
+        initObserver();
+      }
+
+      // --- Logique Lightbox ---
+      const lb = document.getElementById("lightbox");
+      const lbImg = document.getElementById("lb-image");
+      const lbTitle = document.getElementById("lb-title");
+      const lbInfo = document.getElementById("lb-info");
+      const lbDesc = document.getElementById("lb-desc");
+      const lbThumbs = document.getElementById("lb-thumbnails");
+
+      function openLightbox(id) {
+        const toile = mesToiles.find((t) => t.id === id);
+        if (!toile) return;
+
+        lbTitle.innerText = toile.titre;
+        lbInfo.innerText = `${toile.taille} — ${toile.dateAjout.split("-")[0]}`;
+        lbDesc.innerText = `"${toile.description}"`;
+
+        updateMainImage(toile.images[0]);
+
+        // Génération des miniatures
+        lbThumbs.innerHTML = toile.images
+          .map(
+            (img, i) => `
+                <button onclick="updateMainImage('${img}', this)" class="lb-thumb w-16 h-16 md:w-20 md:h-20 border border-white/10 overflow-hidden transition-all duration-500 opacity-30 hover:opacity-100 ${
+              i === 0 ? "opacity-100 border-white scale-105" : ""
+            }">
+                    <img src="${img}" class="w-full h-full object-cover">
+                </button>
+            `
+          )
+          .join("");
+
+        lb.classList.remove("hidden");
+        lb.classList.add("flex");
+        document.body.style.overflow = "hidden";
+      }
+
+      function updateMainImage(url, btn = null) {
+        lbImg.classList.remove("fade-in");
+        void lbImg.offsetWidth; // Trigger reflow
+        lbImg.src = url;
+        lbImg.classList.add("fade-in");
+
+        if (btn) {
+          document
+            .querySelectorAll(".lb-thumb")
+            .forEach((t) => t.classList.replace("opacity-100", "opacity-30"));
+          document
+            .querySelectorAll(".lb-thumb")
+            .forEach((t) => t.classList.remove("border-white", "scale-105"));
+          btn.classList.replace("opacity-30", "opacity-100");
+          btn.classList.add("border-white", "scale-105");
+        }
+      }
+
+      function closeLightbox() {
+        lb.classList.add("hidden");
+        lb.classList.remove("flex");
+        document.body.style.overflow = "auto";
+      }
+
+      function toggleLegal() {
+        document.getElementById("legal").classList.toggle("hidden");
+      }
+
+      function initObserver() {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) entry.target.classList.add("active");
+            });
+          },
+          { threshold: 0.15 }
+        );
+
+        document
+          .querySelectorAll(".reveal")
+          .forEach((el) => observer.observe(el));
+      }
+
+      // Echap pour fermer
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLightbox();
+      });
+
+      // Lancement
+      window.addEventListener("DOMContentLoaded", renderGallery);
+    </script>
+  </body>
+</html>

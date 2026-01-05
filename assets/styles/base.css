@@ -1,9 +1,0 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-body {
-  background: rgb(224, 224, 224);
-}

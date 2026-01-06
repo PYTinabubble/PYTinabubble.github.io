@@ -3,29 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PYTart — Peintures contemporaines abstraites</title>
-    <!-- Tailwind CSS CDN -->
+    <title>PYT ART — Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@200;300;400;500&display=swap"
       rel="stylesheet"
     />
 
     <style>
-      :root {
-        --bg-main: #fafafa;
-      }
-
       body {
         font-family: "Montserrat", sans-serif;
-        background-color: var(--bg-main);
+        background-color: #fafafa;
         color: #1a1a1a;
-        scroll-behavior: smooth;
       }
-
       .font-serif {
         font-family: "Playfair Display", serif;
       }
@@ -33,10 +23,14 @@
         font-family: "Cinzel", serif;
       }
 
-      /* Effet Ken Burns (Zoom lent et fluide) */
+      /* Correction du Scroll Mobile */
+      #lightbox {
+        -webkit-overflow-scrolling: touch;
+        display: none; /* Caché par défaut */
+      }
+
       .hero-bg {
         animation: kenburns 40s infinite alternate ease-in-out;
-        transform-origin: center;
         will-change: transform;
       }
 
@@ -45,11 +39,10 @@
           transform: scale(1);
         }
         100% {
-          transform: scale(1.18);
+          transform: scale(1.15);
         }
       }
 
-      /* Galerie Masonry Organique */
       .masonry-grid {
         columns: 1;
         column-gap: 2rem;
@@ -70,7 +63,7 @@
         margin-bottom: 2rem;
       }
 
-      /* Animations d'apparition au scroll */
+      /* Animation d'apparition */
       .reveal {
         opacity: 0;
         transform: translateY(30px);
@@ -80,61 +73,19 @@
         opacity: 1;
         transform: translateY(0);
       }
-
-      /* Personnalisation Scrollbar */
-      ::-webkit-scrollbar {
-        width: 4px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #222;
-        border-radius: 4px;
-      }
-
-      /* Animation de fondu pour le changement d'image dans la lightbox */
-      .fade-in {
-        animation: fadeIn 0.6s cubic-bezier(0.2, 0, 0.2, 1);
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      button:focus {
-        outline: none;
-      }
     </style>
-    <script type="importmap">
-      {
-        "imports": {
-          "react": "https://esm.sh/react@^19.2.3",
-          "react/": "https://esm.sh/react@^19.2.3/"
-        }
-      }
-    </script>
   </head>
-  <body class="selection:bg-black selection:text-white overflow-x-hidden">
-    <!-- Section Hero -->
+  <body class="overflow-x-hidden">
     <header
       class="relative h-screen w-full overflow-hidden flex items-center justify-center"
     >
       <div class="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=2400"
-          alt="Peinture Abstraite"
+          src="Galeïde_01_uni.jpg"
+          alt="Hero"
           class="w-full h-full object-cover hero-bg brightness-[0.7]"
         />
-        <div class="absolute inset-0 bg-black/10"></div>
       </div>
-
       <div class="relative z-10 text-center text-white px-6">
         <p
           class="font-luxury text-[10px] tracking-[0.9em] uppercase mb-10 opacity-80"
@@ -142,49 +93,21 @@
           Art contemporain
         </p>
         <h1
-          class="font-serif text-5xl md:text-[8rem] lg:text-[10rem] leading-[0.85] tracking-tighter mb-10"
+          class="font-serif text-5xl md:text-[8rem] leading-[0.85] tracking-tighter"
         >
-          PYT <br />
-          <span class="italic ml-8 md:ml-32">Art</span>
+          PYT <br /><span class="italic ml-8 md:ml-32">Art</span>
         </h1>
-        <div class="flex justify-center mt-16">
-          <div
-            class="w-[1px] h-24 bg-gradient-to-b from-white to-transparent"
-          ></div>
-        </div>
       </div>
     </header>
 
-    <!-- Galerie -->
-    <section class="py-32 md:py-48 px-6 md:px-12 lg:px-24">
-      <div class="max-w-[1800px] mx-auto">
-        <header class="mb-32 text-center reveal">
-          <h2
-            class="font-luxury text-[11px] tracking-[0.6em] uppercase text-gray-400 mb-6"
-          >
-            Ma collection
-          </h2>
-          <h3
-            class="font-serif text-4xl md:text-6xl text-gray-900 tracking-tight"
-          >
-            Mon univers
-          </h3>
-        </header>
-
-        <div id="gallery" class="masonry-grid">
-          <!-- Généré par JavaScript -->
-        </div>
-      </div>
+    <section class="py-24 px-6 md:px-12 lg:px-24">
+      <div id="gallery" class="masonry-grid max-w-[1800px] mx-auto"></div>
     </section>
 
-    <!-- Lightbox Modal -->
-    <div
-      id="lightbox"
-      class="fixed inset-0 z-[200] bg-black hidden flex-col lg:flex-row items-center justify-center p-6 md:p-12 lg:p-24 overflow-y-auto lg:overflow-hidden"
-    >
+    <div id="lightbox" class="fixed inset-0 z-[200] bg-black overflow-y-auto">
       <button
         onclick="closeLightbox()"
-        class="fixed top-8 right-8 text-gray-500 hover:text-white transition-all z-[210] p-4 group"
+        class="fixed top-6 right-6 text-white/50 hover:text-white z-[250] p-4"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -203,221 +126,98 @@
       </button>
 
       <div
-        class="w-full h-full flex flex-col lg:flex-row gap-12 lg:gap-32 items-center justify-center max-w-[1800px] mx-auto"
+        class="min-h-screen w-full flex flex-col lg:flex-row items-center justify-start lg:justify-center p-6 md:p-12 lg:p-24 gap-12"
       >
-        <div class="w-full lg:w-3/5 flex flex-col items-center">
-          <div class="relative w-full flex items-center justify-center">
-            <img
-              id="lb-image"
-              src=""
-              alt=""
-              class="max-w-full max-h-[70vh] object-contain shadow-[0_50px_100px_rgba(0,0,0,0.8)]"
-            />
-          </div>
+        <div class="w-full lg:w-3/5 flex flex-col items-center mt-12 lg:mt-0">
+          <img
+            id="lb-image"
+            src=""
+            class="max-w-full max-h-[80vh] object-contain shadow-2xl transition-all duration-500"
+          />
           <div
             id="lb-thumbnails"
-            class="mt-12 flex flex-wrap gap-4 justify-center"
-          >
-            <!-- Généré par JS -->
-          </div>
+            class="mt-8 flex flex-wrap gap-3 justify-center"
+          ></div>
         </div>
 
-        <div class="w-full lg:w-2/5 text-left text-white">
-          <div class="max-w-lg">
-            <h2
-              id="lb-title"
-              class="font-serif text-4xl md:text-6xl mb-8 tracking-tight"
-            ></h2>
+        <div class="w-full lg:w-2/5 text-white pb-12 lg:pb-0">
+          <h2 id="lb-title" class="font-serif text-4xl md:text-6xl mb-6"></h2>
+          <p
+            id="lb-info"
+            class="text-[10px] uppercase tracking-[0.5em] text-gray-400 mb-8"
+          ></p>
+          <p
+            id="lb-desc"
+            class="text-xl md:text-2xl text-gray-300 font-serif italic mb-12 leading-relaxed"
+          ></p>
 
-            <div class="flex items-center gap-6 mb-12">
-              <div class="h-[1px] w-12 bg-white/20"></div>
-              <p
-                id="lb-info"
-                class="text-[10px] uppercase tracking-[0.5em] text-gray-400 font-bold"
-              ></p>
-            </div>
-
-            <div class="space-y-12">
-              <p
-                id="lb-desc"
-                class="text-xl md:text-2xl text-gray-300 leading-relaxed font-serif italic font-light opacity-90"
-              ></p>
-
-              <div class="pt-12 border-t border-white/5 space-y-12">
-                <!-- Bloc Prestige Dynamique - Gris Clair #a1a1aa -->
-                <p
-                  id="lb-tech-details"
-                  class="text-[11px] text-[#a1a1aa] uppercase tracking-[0.4em] leading-[2.2] font-light"
-                >
-                  <!-- Injecté par JS -->
-                </p>
-
-                <button
-                  onclick="closeLightbox()"
-                  class="px-12 py-4 border border-white/10 text-white text-[10px] uppercase tracking-[0.5em] hover:bg-white hover:text-black transition-all duration-500"
-                >
-                  Fermer
-                </button>
-              </div>
-            </div>
+          <div class="pt-8 border-t border-white/10">
+            <p
+              id="lb-details"
+              class="text-[11px] text-[#bcbcbc] uppercase tracking-[0.3em] leading-loose font-light mb-8"
+            ></p>
+            <button
+              onclick="closeLightbox()"
+              class="px-8 py-3 border border-white/20 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition-all"
+            >
+              Retour
+            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-white pt-48 pb-20 px-6 border-t border-gray-100">
-      <div
-        class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-24"
-      >
-        <div class="reveal">
-          <h4 class="font-luxury text-sm tracking-[0.4em] mb-8">Pierre-Yves</h4>
-          <p
-            class="text-[10px] text-gray-400 uppercase tracking-[0.3em] max-w-xs leading-loose"
-          >
-            Peintre amateur perdu dans ses couleurs
-          </p>
-        </div>
-        <div class="flex gap-16 reveal">
-          <div class="flex flex-col gap-6">
-            <p class="text-[10px] font-bold tracking-widest uppercase mb-2">
-              Portfolio
-            </p>
-            <a
-              href="#"
-              class="text-[10px] uppercase tracking-[0.3em] text-gray-400 hover:text-black transition-colors"
-              >Instagram</a
-            >
-            <a
-              href="#"
-              class="text-[10px] uppercase tracking-[0.3em] text-gray-400 hover:text-black transition-colors"
-              >Journal</a
-            >
-          </div>
-          <div class="flex flex-col gap-6">
-            <p class="text-[10px] font-bold tracking-widest uppercase mb-2">
-              Légal
-            </p>
-            <button
-              onclick="toggleLegal()"
-              class="text-[10px] uppercase tracking-[0.3em] text-gray-400 hover:text-black transition-colors text-left"
-            >
-              Mentions Légales
-            </button>
-          </div>
-        </div>
-      </div>
-      <div
-        id="legal"
-        class="hidden max-w-7xl mx-auto mt-24 p-12 bg-gray-50 text-[10px] text-gray-400 uppercase tracking-widest leading-loose border border-gray-100 reveal active"
-      >
-        <p class="mb-6">
-          Propriété intellectuelle : Toutes les œuvres sont protégées par le
-          droit d'auteur. Toute reproduction est strictement interdite.
-        </p>
-        <p>Hébergement : Atelier Vernet.</p>
-      </div>
-      <div class="mt-40 text-center">
-        <p
-          class="text-[9px] uppercase tracking-[0.8em] text-gray-300 font-light"
-        >
-          © 2025 — PYTart
-        </p>
-      </div>
-    </footer>
-
-    <script>
-      /**
-       * DONNÉES DES ŒUVRES AVEC DÉTAILS DYNAMIQUES
-       */
-      const mesToiles = [
-        {
-          id: "t1",
-          titre: "Netastral",
-          taille: "136 x 59 cm",
-          description:
-            "Cette toile qui m'a fait douter durant quasiment tout le processus de sa création. Elle m'a laissé frustré, m'a attrapé les entrailles et les a serré pendant de longues heures, elle m'a donné envie de me dire qu'elle serait la dernière. Puis elle m'a laissé faire et j'ai pu libéré la violence de mon amour non sans peser chacun de mes gestes.",
-          details: "Pièce unique <br>Acrylique et Coton.<br>PYT.",
-          images: [
-            "images/netastral/Netastral_01.jpg",
-            "images/netastral/Netastral_02.jpg",
-          ],
-          dateAjout: "2021-01-14",
-        },
-        {
-          id: "t2",
-          titre: "Murmure d'Ombre",
-          taille: "90 x 90 cm",
-          description:
-            "Le silence capturé dans le mouvement des textures sombres.",
-          details:
-            "Pièce unique — Atelier Vernet<br>Acrylique & bitume sur coton.<br>Exclusivité Galerie.",
-          images: [
-            "https://images.unsplash.com/photo-1554188248-986adbb73be4?auto=format&fit=crop&q=80&w=1200",
-          ],
-          dateAjout: "2024-04-15",
-        },
-        {
-          id: "t3",
-          titre: "Éclat d'Ambre",
-          taille: "100 x 130 cm",
-          description:
-            "Une explosion de chaleur minérale inspirée par les terres d'ocre.",
-          details:
-            "Pièce unique — Atelier Vernet<br>Mixte sur panneau de bois.<br>Prête pour exposition.",
-          images: [
-            "https://images.unsplash.com/photo-1578301978018-3005759f48f7?auto=format&fit=crop&q=80&w=1200",
-          ],
-          dateAjout: "2024-07-22",
-        },
-      ];
+    <script type="module">
+      // On importe tes données depuis le fichier séparé
+      import { mesToiles } from "./toiles.js";
 
       function renderGallery() {
         const container = document.getElementById("gallery");
         const sorted = [...mesToiles].sort(
           (a, b) => new Date(b.dateAjout) - new Date(a.dateAjout)
         );
+
         container.innerHTML = sorted
           .map(
             (toile) => `
-                <div class="masonry-item reveal group cursor-pointer" onclick="openLightbox('${toile.id}')">
-                    <div class="relative overflow-hidden bg-gray-100 shadow-sm transition-all duration-700 hover:shadow-2xl">
-                        <img src="${toile.images[0]}" alt="${toile.titre}" class="w-full h-auto object-cover transform scale-100 transition-transform duration-1000 group-hover:scale-110">
+                <div class="masonry-item reveal group cursor-pointer" onclick="window.openLightbox('${toile.id}')">
+                    <div class="relative overflow-hidden bg-gray-900 shadow-lg">
+                        <img src="${toile.images[0]}" class="w-full h-auto transform transition-transform duration-1000 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </div>
-                    <div class="mt-5 flex justify-between items-baseline px-1 opacity-40 group-hover:opacity-100 transition-opacity">
-                        <span class="text-[10px] uppercase tracking-[0.3em] font-medium">${toile.titre}</span>
-                        <span class="text-[9px] uppercase tracking-widest font-light">${toile.taille}</span>
+                    <div class="mt-4 flex justify-between items-center opacity-60 group-hover:opacity-100">
+                        <span class="text-[10px] uppercase tracking-widest font-bold">${toile.titre}</span>
+                        <span class="text-[9px] uppercase tracking-tighter">${toile.taille}</span>
                     </div>
                 </div>
             `
           )
           .join("");
+
         initObserver();
       }
 
-      const lb = document.getElementById("lightbox");
-      const lbImg = document.getElementById("lb-image");
-      const lbTitle = document.getElementById("lb-title");
-      const lbInfo = document.getElementById("lb-info");
-      const lbDesc = document.getElementById("lb-desc");
-      const lbTech = document.getElementById("lb-tech-details");
-      const lbThumbs = document.getElementById("lb-thumbnails");
-
-      function openLightbox(id) {
+      window.openLightbox = function (id) {
         const toile = mesToiles.find((t) => t.id === id);
         if (!toile) return;
 
-        lbTitle.innerText = toile.titre;
-        lbInfo.innerText = `${toile.taille} — ${toile.dateAjout.split("-")[0]}`;
-        lbDesc.innerText = `"${toile.description}"`;
-        lbTech.innerHTML = toile.details; // Mise à jour dynamique ici
+        document.getElementById("lb-title").innerText = toile.titre;
+        document.getElementById("lb-info").innerText = `${toile.taille} — ${
+          toile.dateAjout.split("-")[0]
+        }`;
+        document.getElementById("lb-desc").innerText = toile.description;
+        // On affiche tes détails personnalisés ici
+        document.getElementById("lb-details").innerText =
+          toile.details || "PIÈCE UNIQUE — SIGNATURE PYT — CERTIFICAT FOURNI.";
 
         updateMainImage(toile.images[0]);
-        lbThumbs.innerHTML = toile.images
+
+        const thumbs = document.getElementById("lb-thumbnails");
+        thumbs.innerHTML = toile.images
           .map(
             (img, i) => `
-                <button onclick="updateMainImage('${img}', this)" class="lb-thumb w-16 h-16 border border-white/10 overflow-hidden transition-all duration-500 opacity-30 hover:opacity-100 ${
-              i === 0 ? "opacity-100 border-white scale-105" : ""
+                <button onclick="window.updateMainImage('${img}', this)" class="w-16 h-16 border border-white/20 opacity-40 hover:opacity-100 transition-all ${
+              i === 0 ? "opacity-100 border-white" : ""
             }">
                     <img src="${img}" class="w-full h-full object-cover">
                 </button>
@@ -425,39 +225,25 @@
           )
           .join("");
 
-        lb.classList.remove("hidden");
-        lb.classList.add("flex");
+        document.getElementById("lightbox").style.display = "block";
         document.body.style.overflow = "hidden";
-      }
+      };
 
-      function updateMainImage(url, btn = null) {
-        lbImg.classList.remove("fade-in");
-        void lbImg.offsetWidth;
-        lbImg.src = url;
-        lbImg.classList.add("fade-in");
+      window.updateMainImage = function (url, btn) {
+        const img = document.getElementById("lb-image");
+        img.src = url;
         if (btn) {
           document
-            .querySelectorAll(".lb-thumb")
-            .forEach((t) =>
-              t.classList.remove("opacity-100", "border-white", "scale-105")
-            );
-          document
-            .querySelectorAll(".lb-thumb")
-            .forEach((t) => t.classList.add("opacity-30"));
-          btn.classList.replace("opacity-30", "opacity-100");
-          btn.classList.add("border-white", "scale-105");
+            .querySelectorAll("#lb-thumbnails button")
+            .forEach((b) => b.classList.remove("opacity-100", "border-white"));
+          btn.classList.add("opacity-100", "border-white");
         }
-      }
+      };
 
-      function closeLightbox() {
-        lb.classList.add("hidden");
-        lb.classList.remove("flex");
+      window.closeLightbox = function () {
+        document.getElementById("lightbox").style.display = "none";
         document.body.style.overflow = "auto";
-      }
-
-      function toggleLegal() {
-        document.getElementById("legal").classList.toggle("hidden");
-      }
+      };
 
       function initObserver() {
         const observer = new IntersectionObserver(
@@ -466,16 +252,13 @@
               if (entry.isIntersecting) entry.target.classList.add("active");
             });
           },
-          { threshold: 0.15 }
+          { threshold: 0.1 }
         );
         document
           .querySelectorAll(".reveal")
           .forEach((el) => observer.observe(el));
       }
 
-      window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeLightbox();
-      });
       window.addEventListener("DOMContentLoaded", renderGallery);
     </script>
   </body>

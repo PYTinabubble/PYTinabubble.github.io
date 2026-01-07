@@ -35,17 +35,21 @@
 
       /* Effet Ken Burns */
       .hero-bg {
-        animation: kenburns 40s infinite alternate ease-in-out;
+        /* On passe à 20s au lieu de 40s pour que ce soit visible sur mobile */
+        animation: kenburns 20s infinite alternate ease-in-out;
         transform-origin: center;
+        /* On force l'accélération GPU avec translate3d */
         will-change: transform;
+        transform: translate3d(0, 0, 0);
       }
 
       @keyframes kenburns {
         0% {
-          transform: scale(1);
+          transform: scale(1) translate3d(0, 0, 0);
         }
         100% {
-          transform: scale(1.18);
+        /* Un zoom à 1.25 est plus marqué pour les petits écrans */
+          transform: scale(1.25) translate3d(0, 0, 0);
         }
       }
 

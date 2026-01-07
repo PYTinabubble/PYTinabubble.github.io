@@ -249,15 +249,18 @@
               ></p>
 
               <div class="pt-12 border-t border-white/5 space-y-6">
-                <p 
-                  id="lb-ref"
-                  class="text-[10px] text-gray-500 italic tracking-[0.2em]"></p>
+                
                 <!-- Bloc Technique - Couleur #a1a1aa -->
                 <p
                   id="lb-tech-details"
                   class="text-[11px] text-[#a1a1aa] uppercase tracking-[0.4em] leading-[2.2] font-light"
                 >
                   <!-- Injecté par JS -->
+                </p>
+
+                <p 
+                  id="lb-ref"
+                  class="text-[10px] text-gray-500 italic tracking-[0.2em]">
                 </p>
 
                 <div class="flex flex-wrap gap-6 pt-4">
@@ -611,7 +614,7 @@
 
         lbTitle.innerText = toile.titre;
         lbInfo.innerText = `${toile.taille} — ${toile.dateAjout.split("-")[0]}`;
-        lbDesc.innerHTML = `"${toile.description}"`;
+        lbDesc.innerHTML = toile.description;
         lbRef.innerText = toile.ref ? `Réf : ${toile.ref}` : "";
         lbTech.innerHTML =
           toile.details || "PIÈCE UNIQUE — PYT ART.<br>SIGNÉE AU DOS.";

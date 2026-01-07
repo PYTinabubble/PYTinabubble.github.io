@@ -248,7 +248,10 @@
                 class="text-xl md:text-2xl text-gray-300 leading-relaxed font-serif italic font-light opacity-90"
               ></p>
 
-              <div class="pt-12 border-t border-white/5 space-y-12">
+              <div class="pt-12 border-t border-white/5 space-y-6">
+                <p 
+                  id="lb-ref"
+                  class="text-[10px] text-gray-500 italic tracking-[0.2em]"></p>
                 <!-- Bloc Technique - Couleur #a1a1aa -->
                 <p
                   id="lb-tech-details"
@@ -347,6 +350,7 @@
       const mesToiles = [
         {
           id: "t1",
+          ref: "PYT-2021-003",
           titre: "Netastral",
           taille: "136 x 59 cm",
           details:
@@ -377,6 +381,7 @@
         },
          {
           id: "t3",
+          ref: "PYT-2020-002",
           titre: "Sanmouraï",
           taille: "46 x 38 cm",
           details:
@@ -392,6 +397,7 @@
         {
           id: "t4",
           titre: "Untitled#10",
+          ref: "PYT-2020-001",
           taille: "46 x 38 cm",
           details:
             "PIÈCE UNIQUE.<br>ACRYLIQUE SUR COTON.<br>PLUS DISPONIBLE.",
@@ -405,6 +411,7 @@
         },
          {
           id: "t5",
+          ref: "PYT-2020-003",
           titre: "Untitled#15",
           taille: "55 x 46 cm",
           details:
@@ -418,6 +425,7 @@
         },
         {
           id: "t6",
+          ref: "PYT-2021-001",
           titre: "Untitled#16",
           taille: "30 x 30 cm",
           details:
@@ -431,6 +439,7 @@
         },
         {
           id: "t7",
+          ref: "PYT-2021-002",
           titre: "L'incrusteur",
           taille: "55 x 46 cm",
           details:
@@ -444,6 +453,7 @@
         },
           {
           id: "t8",
+          ref: "PYT-2021-004",
           titre: "Chaordon",
           taille: "80 x 80 cm",
           details:
@@ -458,6 +468,7 @@
         },
           {
           id: "t9",
+          ref: "PYT-2021-005",
           titre: "Victal",
           taille: "80 x 80 cm",
           details:
@@ -473,6 +484,7 @@
         },
         {
           id: "t10",
+          ref: "PYT-2021-006",
           titre: "Galeïde",
           taille: "80 x 80 cm",
           details:
@@ -489,6 +501,7 @@
         },
         {
           id: "t11",
+          ref: "PYT-2021-007",
           titre: "Bordest",
           taille: "120 x 50 cm",
           details:
@@ -505,6 +518,7 @@
         },
           {
           id: "t12",
+          ref: "PYT-2021-008",
           titre: "ADL",
           taille: "55 x 46 cm",
           details:
@@ -514,16 +528,17 @@
           images: [
             "images/ADL/ADL_uni.jpg",
           ],
-          dateAjout: "2021-05-21",
+          dateAjout: "2021-06-06",
         },
         {
           id: "t13",
+          ref: "PYT-2021-009",
           titre: "Photone",
           taille: "150 x 50 cm",
           details:
             "PIÈCE UNIQUE.<br>ACRYLIQUE SUR COTON.<br>PLUS DISPONIBLE.",
           description:
-            "\"Tenez la ligne !\" /n - Les notes.", 
+            "\"Tenez la ligne !\" <br> — Les notes.", 
           images: [
             "images/Photone/Photone_uni.jpg",
             "images/Photone/Photone_dt.png",
@@ -532,8 +547,9 @@
           ],
           dateAjout: "2021-07-11",
         },
-           {
+        {
           id: "t14",
+          ref: "PYT-2021-010",
           titre: "Altrail",
           taille: "150 x 50 cm",
           details:
@@ -585,6 +601,7 @@
       const lbTitle = document.getElementById("lb-title");
       const lbInfo = document.getElementById("lb-info");
       const lbDesc = document.getElementById("lb-desc");
+      const lbRef = document.getElementById("lb-ref");
       const lbTech = document.getElementById("lb-tech-details");
       const lbThumbs = document.getElementById("lb-thumbnails");
 
@@ -594,7 +611,8 @@
 
         lbTitle.innerText = toile.titre;
         lbInfo.innerText = `${toile.taille} — ${toile.dateAjout.split("-")[0]}`;
-        lbDesc.innerText = `"${toile.description}"`;
+        lbDesc.innerHTML = `"${toile.description}"`;
+        lbRef.innerText = toile.ref ? `Réf : ${toile.ref}` : "";
         lbTech.innerHTML =
           toile.details || "PIÈCE UNIQUE — PYT ART.<br>SIGNÉE AU DOS.";
 

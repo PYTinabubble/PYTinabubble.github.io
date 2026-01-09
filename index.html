@@ -321,6 +321,12 @@
               class="text-[10px] uppercase tracking-[0.3em] text-gray-400 hover:text-black transition-colors"
               >À propos</a
             >
+            <a
+              href="#"
+              onclick="sendEmail(); return false;"
+              class="text-[10px] uppercase tracking-[0.3em] text-gray-400 hover:text-black transition-colors"
+              >Contact</a
+            >
           </div>
           <div class="flex flex-col gap-6">
             <p class="text-[10px] font-bold tracking-widest uppercase mb-2">
@@ -342,7 +348,7 @@
       >
         <p class="mb-6">
           Éditeur du site : Pierre-Yves T. (Artiste sous le nom de PYT)</p>
-          <p class="mb-6">Contact : </p>
+          <p class="mb-6">Contact : hello [at] py-tart.com</p>
           <p class="mb-6">Propriété intellectuelle : L'ensemble des contenus (textes, photographies, œuvres d'art) présents sur ce site sont la propriété exclusive de l'artiste PYT. Toute reproduction, représentation ou diffusion, totale ou partielle, est strictement interdite sans autorisation préalable.</p>
           <p class="mb-6">Hébergement : Ce site est hébergé par GitHub Inc. Adresse : 88 Colin P. Kelly Jr St, San Francisco, CA 94107, États-Unis.
           Site web : https://pages.github.com</p>
@@ -1027,6 +1033,13 @@
         lb.classList.add("hidden");
         document.body.style.overflow = "auto";
       }
+
+      function sendEmail() {
+      const user = "hello";
+      const domain = "pyt-art.com";
+      // On assemble l'adresse uniquement au clic
+      window.location.href = "mailto:" + user + "@" + domain;
+}
 
       function toggleLegal() {
         document.getElementById("legal").classList.toggle("hidden");

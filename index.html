@@ -321,10 +321,12 @@
               class="text-[10px] uppercase tracking-[0.3em] text-gray-400 hover:text-black transition-colors"
               >À propos</a
             >
-            <a
+           <a
               href="#"
-              onclick="sendEmail(); return false;"
+              id="contact-link"
+              onclick="handleContact(event)"
               class="text-[10px] uppercase tracking-[0.3em] text-gray-400 hover:text-black transition-colors"
+              title="Cliquer pour copier et envoyer un mail"
               >Contact</a
             >
           </div>
@@ -348,7 +350,7 @@
       >
         <p class="mb-6">
           Éditeur du site : Pierre-Yves T. (Artiste sous le nom de PYT)</p>
-          <p class="mb-6">Contact : hello [at] py-tart.com</p>
+          <p class="mb-6">Contact : hello [at] pyt-art.com</p>
           <p class="mb-6">Propriété intellectuelle : L'ensemble des contenus (textes, photographies, œuvres d'art) présents sur ce site sont la propriété exclusive de l'artiste PYT. Toute reproduction, représentation ou diffusion, totale ou partielle, est strictement interdite sans autorisation préalable.</p>
           <p class="mb-6">Hébergement : Ce site est hébergé par GitHub Inc. Adresse : 88 Colin P. Kelly Jr St, San Francisco, CA 94107, États-Unis.
           Site web : https://pages.github.com</p>
@@ -1034,13 +1036,35 @@
         document.body.style.overflow = "auto";
       }
 
-      function sendEmail() {
-      const user = "hello";
-      const domain = "pyt-art.com";
-      // On assemble l'adresse uniquement au clic
-      window.location.href = "mailto:" + user + "@" + domain;
-}
+      function handleContact(event) {
+         event.preventDefault();
 
+        // Obfuscation : on sépare les composants pour tromper les robots
+        const user = "hello";
+        const domain = "pyt-art.com";
+        const fullEmail = user + "@" + domain;
+        const link = document.getElementById('contact-link');
+        // 1. Copie du mail reconstruit dans le presse-papier
+        navigator.clipboard.writeText(fullEmail).then(() => {
+        // 2. Feedback visuel (le texte change)
+        const originalText = link.innerText;
+        link.innerText = "Email copié !";
+        link.classList.remove('text-gray-400');
+        link.classList.add('text-black');
+
+        // 3. Tentative d'ouverture du logiciel de messagerie
+        setTimeout(() => {
+            window.location.href = "mailto:" + fullEmail;
+        }, 100);
+
+        // 4. Retour à l'état initial après 3 secondes
+        setTimeout(() => {
+            link.innerText = originalText;
+            link.classList.remove('text-black');
+            link.classList.add('text-gray-400');
+              }, 3000);
+        });
+      }
       function toggleLegal() {
         document.getElementById("legal").classList.toggle("hidden");
       }

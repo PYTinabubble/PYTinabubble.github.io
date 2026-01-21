@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -879,6 +879,23 @@
           ],
           dateAjout: "2022-01-27",
         },
+        {
+          id: "pyt_2023_002",
+          enAttente: true,
+          ref: "PYT-2023-002",
+          titre: "Le Paysage des Possibles",
+          taille: "116 x 81 cm",
+          details: "PIÈCE UNIQUE. ACRYLIQUE SUR COTON. DISPONIBLE.",
+          description:
+            "Rien n'est statique, tout semble fluide... Les couleurs éclatantes font cohabiter le jour et la nuit, la joie et le mystère.\n\nC'est une invitation au voyage intérieur, une transition de l'être. Que l'on soit voyageur ou flâneur, c'est le mouvement qui compte, bien plus que l'arrivée.\n\nOù seriez-vous en ce moment ?\n\nAu seuil du chemin coloré, dans l'élan du départ ?\n\nÀ l'abri de l'arbre, observant le paysage avant de vous lancer ?\n\nFace au tunnel, prêt à embrasser l'inconnu ?\n\nOu déjà égaré dans les tourbillons d'azur ?\n\nLe Paysage des Possibles n'est pas une destination, c'est une métamorphose. Regardez l'horizon : ce qui s'annonce derrière est un monde de courbes, de plénitude et de silence.",
+          images: [
+            "lepaysagedespossibles_01.avif",
+            "lepaysagedespossibles_02.avif",
+            "lepaysagedespossibles_03.avif",
+            "lepaysagedespossibles_04.avif",
+          ],
+          dateAjout: "2023-02-18",
+        },
       ];
       // === FIN DES DONNEES ===
 
@@ -904,7 +921,7 @@
               <span class="text-[9px] uppercase tracking-widest font-light">${toile.taille}</span>
             </div>
           </div>
-        `
+        `,
           )
           .join("");
         initObserver();
@@ -936,11 +953,11 @@
           .map(
             (img, i) => `
           <button onclick="updateMainImage('${img}', this)" class="lb-thumb w-16 h-16 md:w-20 md:h-20 border border-white/10 overflow-hidden transition-all duration-500 opacity-30 hover:opacity-100 ${
-              i === 0 ? "opacity-100 border-white scale-105" : ""
-            }">
+            i === 0 ? "opacity-100 border-white scale-105" : ""
+          }">
             <img src="${img}" class="w-full h-full object-cover">
           </button>
-        `
+        `,
           )
           .join("");
 
@@ -1009,7 +1026,7 @@
               if (entry.isIntersecting) entry.target.classList.add("active");
             });
           },
-          { threshold: 0.15 }
+          { threshold: 0.15 },
         );
         document
           .querySelectorAll(".reveal")

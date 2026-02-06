@@ -975,6 +975,9 @@
         const toile = mesToiles.find((t) => t.id === id);
         if (!toile) return;
 
+        // --- AJOUT : On crée une étape dans l'historique ---
+        history.pushState({ lightboxOpen: true }, "");
+
         lbTitle.innerText = toile.titre;
         lbInfo.innerText = `${toile.taille} — ${toile.dateAjout.split("-")[0]}`;
         lbDesc.innerHTML = toile.description;
@@ -1019,6 +1022,10 @@
       function closeLightbox() {
         lb.classList.add("hidden");
         document.body.style.overflow = "auto";
+        // Si on ferme manuellement (croix/bouton), on retire l'étape de l'historique
+        if (shouldGoBack && history.state && history.state.lightboxOpen) {
+          history.back();
+        }
       }
 
       function handleContact(event) {
@@ -1070,6 +1077,14 @@
 
       window.addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeLightbox();
+      });
+
+      // Détecte le clic sur le bouton "Précédent" du navigateur ou du téléphone
+      window.addEventListener("popstate", function (event) {
+        if (!lb.classList.contains("hidden")) {
+          // On ferme la lightbox sans appeler history.back() (car on y est déjà via le popstate)
+          closeLightbox(false);
+        }
       });
 
       window.addEventListener("DOMContentLoaded", renderGallery);
